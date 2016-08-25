@@ -24,7 +24,7 @@ ________________________________________________________________________________
 // C++
 #include <algorithm>
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 // C
 #include <stdio.h>
 #include <sys/types.h>
