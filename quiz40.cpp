@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
     nquestions = atoi(argv[2]);
   std::vector<std::string> filenames = files_in_folder(argv[1]);
   std::random_shuffle(filenames.begin(), filenames.end());
-  std::vector<cv::Mat3b> questions, answers;
+  std::vector<cv::Mat3b> questions, answers, errors;
   for (unsigned int i = 1; i <= filenames.size(); ++i) {
     std::string qfilename = filenames[i];
     printf("%i/%i: testing '%s'...\n",
@@ -122,6 +122,7 @@ int main(int argc, char** argv) {
 
   // real quiz
   cv::namedWindow(WINNAME);
+
   unsigned int score = 0;
   for (unsigned int nq = 0; nq < nquestions; ++nq) {
     std::ostringstream score_txt;
@@ -136,8 +137,25 @@ int main(int argc, char** argv) {
     char c = cv::waitKey(0);
     if (c == 'y' || c == '1')
       ++score;
+    else {
+      errors.push_back(questions[nq]);
+      errors.push_back(answers[nq]);
+    }
   } // end for nq
 
   printf("Final score:%i/%i\n", score, nquestions);
+  if (score == nquestions)
+    return 0;
+  unsigned int i = 0;
+  while (true) {
+    cv::imshow(WINNAME, errors[i]);
+    char c = cv::waitKey(0);
+    if (c == 'q' || c == 27) // quit
+      break;
+    else if (c == 81) // left
+      i = (i+errors.size()-1) % errors.size();
+    else // right
+      i = (i+1) % errors.size();
+  }
   return 0;
 } // end main
