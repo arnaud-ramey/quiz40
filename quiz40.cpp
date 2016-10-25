@@ -88,13 +88,13 @@ int main(int argc, char** argv) {
       continue;
     }
 
-    cv::Mat3b question = cv::imread(qfilename, cv::IMREAD_COLOR);
+    cv::Mat3b question = cv::imread(qfilename, CV_IMREAD_COLOR);
     if (question.empty()) {
       printf("%i/%i: could not read question image '%s'!\n",
              questions.size(), nquestions, qfilename.c_str());
       continue;
     }
-    cv::Mat3b answer = cv::imread(afilename, cv::IMREAD_COLOR);
+    cv::Mat3b answer = cv::imread(afilename, CV_IMREAD_COLOR);
     if (answer.empty()) {
       printf("%i/%i: could not read answer image '%s'!\n",
              questions.size(), nquestions, afilename.c_str());
