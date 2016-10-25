@@ -1,6 +1,8 @@
 # quiz40
 
-A minimalistic quiz program, 
+[![Build Status](https://travis-ci.org/arnaud-ramey/quiz40.svg)](https://travis-ci.org/arnaud-ramey/quiz40)
+
+A minimalistic quiz program,
 based on pairs of corresponding question/answer images.
 
 Licence
@@ -35,7 +37,7 @@ How to use the program
 ======================
 
 
-Synopsis: 
+Synopsis:
 ```bash
   quiz40 FOLDER [NQUESTIONS]
 ```
