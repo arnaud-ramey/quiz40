@@ -73,30 +73,30 @@ int main(int argc, char** argv) {
   std::vector<cv::Mat3b> questions, answers, errors;
   for (unsigned int i = 1; i <= filenames.size(); ++i) {
     std::string qfilename = filenames[i];
-    printf("%i/%i: testing '%s'...\n",
+    printf("%li/%i: testing '%s'...\n",
            questions.size(), nquestions, qfilename.c_str());
     if (qfilename.find("q.jp") == std::string::npos) { // not an image
-      printf("%i/%i: '%s' is not a question image\n",
+      printf("%li/%i: '%s' is not a question image\n",
              questions.size(), nquestions, qfilename.c_str());
       continue;
     }
     std::string afilename = qfilename;
     replace(afilename, "q.jp", ".jp");
     if (std::find(filenames.begin(), filenames.end(), afilename) == filenames.end()) {
-      printf("%i/%i: associated answer '%s' does not exist\n",
+      printf("%li/%i: associated answer '%s' does not exist\n",
              questions.size(), nquestions, qfilename.c_str());
       continue;
     }
 
-    cv::Mat3b question = cv::imread(qfilename, CV_LOAD_IMAGE_COLOR);
+    cv::Mat3b question = cv::imread(qfilename, cv::IMREAD_COLOR);
     if (question.empty()) {
-      printf("%i/%i: could not read question image '%s'!\n",
+      printf("%li/%i: could not read question image '%s'!\n",
              questions.size(), nquestions, qfilename.c_str());
       continue;
     }
-    cv::Mat3b answer = cv::imread(afilename, CV_LOAD_IMAGE_COLOR);
+    cv::Mat3b answer = cv::imread(afilename, cv::IMREAD_COLOR);
     if (answer.empty()) {
-      printf("%i/%i: could not read answer image '%s'!\n",
+      printf("%li/%i: could not read answer image '%s'!\n",
              questions.size(), nquestions, afilename.c_str());
       continue;
     }
@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
     double aratio = std::min(1. * target_size.width  / answer.cols,
                              1. * target_size.height / answer.rows);
     cv::resize(answer, answer, cv::Size(), aratio, aratio);
-    printf("%i/%i: adding '%s'\n",
+    printf("%li/%i: adding '%s'\n",
            questions.size(), nquestions, qfilename.c_str());
     questions.push_back(question);
     answers.push_back(answer);
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
   } // end for i
   // check we got nquestions questions
   if (questions.size() < nquestions) {
-    printf("Could only find %i questions, we wanted %i!\n",
+    printf("Could only find %li questions, we wanted %i!\n",
            questions.size(), nquestions);
     return -1;
   }
@@ -128,9 +128,9 @@ int main(int argc, char** argv) {
     std::ostringstream score_txt;
     score_txt << score << "/" << nq;
     cv::putText(questions[nq], score_txt.str(), cv::Point(10, 50),
-                CV_FONT_HERSHEY_PLAIN, 5, CV_RGB(0, 255, 0), 2);
+                cv::FONT_HERSHEY_PLAIN, 5, CV_RGB(0, 255, 0), 2);
     cv::putText(answers[nq], score_txt.str(), cv::Point(10, 50),
-                CV_FONT_HERSHEY_PLAIN, 5, CV_RGB(0, 255, 0), 2);
+                cv::FONT_HERSHEY_PLAIN, 5, CV_RGB(0, 255, 0), 2);
     cv::imshow(WINNAME, questions[nq]);
     cv::waitKey(0);
     cv::imshow(WINNAME, answers[nq]);
